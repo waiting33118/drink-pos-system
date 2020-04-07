@@ -22,14 +22,24 @@ Drink.prototype.price = function () {
   }
 }
 
-let blackTea = new Drink('Black Tea', 'Half Sugar', 'No Ice')
-console.log(blackTea)
-console.log(blackTea.price())
+//建構式
+function AlphaPos() { }
+AlphaPos.prototype.getCheckedValue = function (inputName) {
+  let selectedOption = ''
+  document.querySelectorAll(`[name=${inputName}]`).forEach(function (item) {
+    if (item.checked) {
+      selectedOption = item.value
+    }
+  })
+  return selectedOption
+}
 
-let lemonGreenTea = new Drink('Lemon Green Tea', 'No Sugar', 'Less Ice')
-console.log(lemonGreenTea)
-console.log(lemonGreenTea.price())
-
-let matchaLatte = new Drink('Matcha Latte', 'Less Sugar', 'Regular Ice')
-console.log(matchaLatte)
-console.log(matchaLatte.price())
+//實例
+const alphaPos = new AlphaPos()
+const addDrinkButton = document.querySelector('[data-alpha-pos="add-drink"]')
+addDrinkButton.addEventListener('click', () => {
+  const drinkName = alphaPos.getCheckedValue('drink')
+  const ice = alphaPos.getCheckedValue('ice')
+  const sugar = alphaPos.getCheckedValue('sugar')
+  console.log(`${drinkName},${ice},${sugar}`)
+})

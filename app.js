@@ -72,7 +72,7 @@ AlphaPos.prototype.clearOrder = function (target) {
   })
 }
 
-//實例
+//產生實例
 const alphaPos = new AlphaPos()
 
 const addDrinkButton = document.querySelector('[data-alpha-pos="add-drink"]')

@@ -1,6 +1,6 @@
-function Drink(name, suger, ice) {
+function Drink(name, sugar, ice) {
   this.name = name
-  this.suger = suger
+  this.sugar = sugar
   this.ice = ice
 }
 
@@ -54,12 +54,32 @@ AlphaPos.prototype.addDrink = function (drink) {
   orderLists.insertAdjacentHTML('afterbegin', orderListCard)
 }
 
+AlphaPos.prototype.deleteDrink = function (target) {
+  target.remove()
+}
+
+AlphaPos.prototype.checkout = function () {
+  let totalAmount = 0
+  document.querySelectorAll('[data-drink-price]').forEach((drink) => {
+    totalAmount += Number(drink.textContent)
+  })
+  return totalAmount
+}
+
+AlphaPos.prototype.clearOrder = function (target) {
+  target.querySelectorAll('.card').forEach((card) => {
+    card.remove()
+  })
+}
+
 //實例
 const alphaPos = new AlphaPos()
 
 const addDrinkButton = document.querySelector('[data-alpha-pos="add-drink"]')
 const orderLists = document.querySelector('[data-order-lists]')
+const checkoutButton = document.querySelector('[data-alpha-pos="checkout"]')
 
+//新增飲料
 addDrinkButton.addEventListener('click', () => {
   const drinkName = alphaPos.getCheckedValue('drink')
   const ice = alphaPos.getCheckedValue('ice')
@@ -71,3 +91,19 @@ addDrinkButton.addEventListener('click', () => {
   const drink = new Drink(drinkName, sugar, ice)
   alphaPos.addDrink(drink)
 })
+
+//刪除訂單
+orderLists.addEventListener('click', (e) => {
+  let isDeleteButton = e.target.matches('[data-alpha-pos="delete-drink"]')
+  if (!isDeleteButton) {
+    return
+  }
+  alphaPos.deleteDrink(e.target.parentElement.parentElement.parentElement)
+})
+
+//結帳總金額
+checkoutButton.addEventListener('click', (e) => {
+  alert(`Total amount of drinks: $${alphaPos.checkout()}`)
+  alphaPos.clearOrder(orderLists)
+})
+
